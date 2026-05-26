@@ -6,4 +6,4 @@ Every time you add changes: 1. !git add [changed file] 2. !git commit -m "[chose
 Every time you want to ensure changes have been added: !git pull
 check status: !git status
 
-To clone repo: ask chat
+To clone repo: open up file in matlab by pasting repo url. !git pull to ensure it is up to date
