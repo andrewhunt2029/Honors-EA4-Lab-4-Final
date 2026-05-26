@@ -7,28 +7,28 @@ clear; clc; close all;
 N = 2;
 
 % Case 1: diff omega > K
-omega1 = 20;
-omega2 = 10;
-initvec = [0, 2.5]; % initial theta vals
-K = 5;
-[t, theta] = simulate_oscillations(N, K, initvec, [omega1, omega2]);
+omegavec = [1, 1.2];
+initvec = [0, 5]; % initial theta vals
+K = 0.5;
+[t, theta] = simulate_oscillations(N, K, initvec, omegavec);
 % Plot results
 figure('Name', 'Oscillations | N = 2, diff omega > K');
-plot(t, theta(:, 1), 'k-',  'LineWidth', 2,   'DisplayName', '1st oscillator'); hold on;
-plot(t, theta(:, 2),  'r--', 'LineWidth', 2, 'DisplayName', '2nd oscillator');
-xlabel('\omega'); ylabel('Response Amplitude R');
+plot(t, theta(:, 1), 'b-',  'LineWidth', 2,   'DisplayName', '1st oscillator'); hold on;
+plot(t, theta(:, 2),  'r-', 'LineWidth', 2, 'DisplayName', '2nd oscillator');
+xlabel('iterations t'); ylabel('phase angle (radians)');
 title('Oscillations | N = 2, diff omega > K');
 legend; grid on;
 
 % Case 2: diff omega < K
-omega1 = 20;
-omega2 = 10;
-K = 5;
-[t, theta] = simulate_oscillations(N, initvec, [omega1, omega2]);
+omegavec = [1, 1.2];
+initvec = [0, 5];
+K = 0.5;
+[t, theta] = simulate_oscillations(N, K, initvec, omegavec);
+% Plot results
 figure('Name', 'Oscillations | N = 2, diff omega < K');
-plot(t, theta(:, 1), 'k-',  'LineWidth', 2,   'DisplayName', '1st oscillator'); hold on;
-plot(t, theta(:, 2),  'r--', 'LineWidth', 2, 'DisplayName', '2nd oscillator');
-xlabel('\omega'); ylabel('Response Amplitude R');
+plot(t, theta(:, 1), 'b-',  'LineWidth', 2,   'DisplayName', '1st oscillator'); hold on;
+plot(t, theta(:, 2),  'r-', 'LineWidth', 2, 'DisplayName', '2nd oscillator');
+xlabel('iterations t'); ylabel('phase angle (radians)');
 title('Oscillations | N = 2, diff omega < K');
 legend; grid on;
 
@@ -38,7 +38,7 @@ legend; grid on;
 % ----- Part 2: N >> 1 Case, varying K -----
 
 N = 50; % number of oscillators
-Kvals = 0:0.01:1;
+Kvals = 0:0.05:10;
 R = zeros(1, length(Kvals)); % vector of order parameter... "center of mass distances" / "proximity to synchronization"
 
 for K = Kvals % cycle through uniform range of coupling strengths
@@ -48,7 +48,7 @@ for K = Kvals % cycle through uniform range of coupling strengths
     omegavec = randn(1, N) + 1; % initial omega vals vector, random from Gaussian curve
 
     % run integration of equation, where theta = phase
-    [t, theta] = simulate_oscillations(N, initvec, omegavec);
+    [t, theta] = simulate_oscillations(N, K, initvec, omegavec);
 
     % theta, thetap are matrices of size [t, N]
 
@@ -57,16 +57,19 @@ for K = Kvals % cycle through uniform range of coupling strengths
 end
 
 % Calculate threshold coupling strength, Kc
+% Kc = the coupling strength such that, if K > Kc, solutions R > 0 exist
 
-%Kc = (FILL IN)*sqrt(2/pi);
+Kc = 2*sqrt(2/pi); % where sigma = 1
 
 % Plot R vals with respect to K vals
-figure('Name', 'R(K) | N = %d', N);
-plot(K, R, 'k-',  'LineWidth', 2,   'DisplayName', 'R(K)'); hold on;
-xline(Kc,'-',{'Threshold Coupling Strength','Kc'});
+figure('Name', sprintf('R(K) | N = %d', N));
+plot(Kvals, R, 'b-',  'LineWidth', 2,   'DisplayName', 'R(K)'); hold on;
+xline(Kc,'-',{'Threshold Coupling Strength'}, 'DisplayName', 'Kc');
 xlabel('Coupling Strength K'); ylabel('Order Parameter R');
-title('Order Parameter R as a function of K | N = %d', N);
+title(sprintf('Order Parameter R as a function of K | N = %d', N));
 legend; grid on;
+
+% PART 3 
 
 % EXTRA CREDIT 1: movie
 
