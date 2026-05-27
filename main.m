@@ -1,10 +1,10 @@
 %% Lab 4: Synchronization - Main Driver Script
 
-clear; clc; close all;
+clear; clc; close all; rng;
 
 % ----- Part 1: N = 2 case -----
 
-N = 2;
+N = 2; % number of oscillators
 
 % Case 1: diff omega > K
 omegavec = [1, 1.7];
@@ -38,7 +38,8 @@ legend; grid on;
 
 % ----- Part 2: N >> 1 Case, varying K -----
 
-N = 50; % number of oscillators
+N = 50;
+
 Kvals = 0:0.05:10;
 R = zeros(1, length(Kvals)); % vector of order parameter... "center of mass distances" / "proximity to synchronization"
 
@@ -59,19 +60,26 @@ end
 
 % Calculate threshold coupling strength, Kc
 % Kc = the coupling strength such that, if K > Kc, solutions R > 0 exist
-
 Kc = 2*sqrt(2/pi); % where sigma = 1
+
+% Calculate Kuramoto's Prediction function, the vector Rpredic,
+% with guess proportionality constant a
+a = 2;
+Rpredic = a .* sqrt(K - Kc);
 
 % Plot R vals with respect to K vals
 figure('Name', sprintf('R(K) | N = %d', N));
 plot(Kvals, R, 'b-',  'LineWidth', 2,   'DisplayName', 'R(K)'); hold on;
-xline(Kc,'-',{'Threshold Coupling Strength'}, 'DisplayName', 'Kc');
+xline(Kc,'-',{'Threshold Coupling Strength'}, 'DisplayName', 'Kc'); hold on;
+plot(Kvals, Rpredic, 'r-','LineWidth', 2,   'DisplayName', 'Kuramoto Prediction');
 xlabel('Coupling Strength K'); ylabel('Order Parameter R');
 title(sprintf('Order Parameter R as a function of K | N = %d', N));
 legend; grid on;
 
-% ----- Part 3: 
-
 % EXTRA CREDIT 1: movie
+
+% EXTRA CREDIT 2: verify Lorentzian
+
+% EXTRA CREDIT 3: solve for gaussian numerically, and overlay R(K)
 
 % need array M containing content
