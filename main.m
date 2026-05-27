@@ -7,10 +7,11 @@ clear; clc; close all;
 N = 2;
 
 % Case 1: diff omega > K
-omegavec = [1, 1.2];
+omegavec = [1, 1.7];
 initvec = [0, 5]; % initial theta vals
 K = 0.5;
 [t, theta] = simulate_oscillations(N, K, initvec, omegavec);
+% theta is matrix of size [t, N]
 % Plot results
 figure('Name', 'Oscillations | N = 2, diff omega > K');
 plot(t, theta(:, 1), 'b-',  'LineWidth', 2,   'DisplayName', '1st oscillator'); hold on;
@@ -21,7 +22,7 @@ legend; grid on;
 
 % Case 2: diff omega < K
 omegavec = [1, 1.2];
-initvec = [0, 5];
+initvec = [0, 4];
 K = 0.5;
 [t, theta] = simulate_oscillations(N, K, initvec, omegavec);
 % Plot results
@@ -33,7 +34,7 @@ title('Oscillations | N = 2, diff omega < K');
 legend; grid on;
 
 % expected result from mathematical analysis: no fixed points for Case 1 (not enough coupling
-% strength_; fixed points at arcsin(diffomega/K) and pi - arcsin(diffomega/K) 
+% strength); for Case 2, fixed points at arcsin(diffomega/K) and pi - arcsin(diffomega/K) 
 
 % ----- Part 2: N >> 1 Case, varying K -----
 
@@ -69,7 +70,7 @@ xlabel('Coupling Strength K'); ylabel('Order Parameter R');
 title(sprintf('Order Parameter R as a function of K | N = %d', N));
 legend; grid on;
 
-% PART 3 
+% ----- Part 3: 
 
 % EXTRA CREDIT 1: movie
 
