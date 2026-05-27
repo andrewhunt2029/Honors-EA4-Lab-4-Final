@@ -7,8 +7,8 @@ clear; clc; close all; rng(1);
 N = 2; % number of oscillators
 
 % Case 1: diff omega > K
-omegavec = [1, 1.7];
-initvec = [0, 5]; % initial theta vals
+omegavec = [0.5, 1.2];
+initvec = [0, 0]; % initial theta vals
 K = 0.5;
 [t, theta] = simulate_oscillations(N, K, initvec, omegavec);
 % theta is matrix of size [t, N]
@@ -24,7 +24,7 @@ fprintf("N = 2, Case 1 done\n");
 
 % Case 2: diff omega < K
 omegavec = [1, 1.2];
-initvec = [0, 4];
+initvec = [0, 1];
 K = 0.5;
 [t, theta] = simulate_oscillations(N, K, initvec, omegavec);
 % Plot results
@@ -39,10 +39,10 @@ fprintf("N = 2, Case 2 done\n");
 
 % expected result from mathematical analysis: no fixed points for Case 1 (not enough coupling
 % strength); for Case 2, fixed points at arcsin(diffomega/K) and pi - arcsin(diffomega/K) 
-
+%{
 % ----- Part 2: N >> 1 Case, varying K -----
 
-N = 500;
+N = 250;
 
 Kvals = 0:0.02:5;
 R = zeros(1, length(Kvals)); % vector of order parameter... "center of mass distances" / "proximity to synchronization"
@@ -90,3 +90,4 @@ legend; grid on;
 % EXTRA CREDIT 3: solve for gaussian numerically, and overlay R(K)
 
 % need array M containing content
+%}
