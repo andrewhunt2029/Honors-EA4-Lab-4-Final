@@ -3,9 +3,16 @@ function [t, theta] = simulate_oscillations(N, K, initvec, omegavec)
  if length(initvec) ~= N || length(omegavec) ~= N
      error('Incorrect vector length');
  end
- initvec = initvec(:);
- omegavec = omegavec(:);
- [t, theta] = ode45(@(t, theta) rhs(t, theta, K/N, omegavec), [0 50], initvec);
+ if N > 2
+     % We are now running the N >> 1 case in the code!
+     % Iterate until we reach "steady state", which we interpret as being
+     % when R - Rprev is within some tolerance
+ else
+    % We are now running the N > 2 case; simply run 50 iterations
+    initvec = initvec(:);
+    omegavec = omegavec(:);
+    [t, theta] = ode45(@(t, theta) rhs(t, theta, K/N, omegavec), [0 100], initvec);
+ end
 end
 function dtheta = rhs(t, theta, scale, omegavec)
  dtheta = omegavec + scale*sum(sin(theta' - theta), 2);
