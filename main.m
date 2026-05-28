@@ -1,6 +1,8 @@
 %% Lab 4: Synchronization - Main Driver Script
 
-clear; clc; close all; rng(1);
+%clear; clc; close all; 
+
+rng(1);
 
 % ----- Part 1: N = 2 case -----
 
@@ -23,8 +25,8 @@ legend; grid on;
 fprintf("N = 2, Case 1 done\n");
 
 % Case 2: diff omega < K
-omegavec = [1, 1.2];
-initvec = [0, 1];
+omegavec = [0.5, 0.7];
+initvec = [0, 2];
 K = 0.5;
 [t, theta] = simulate_oscillations(N, K, initvec, omegavec);
 % Plot results
@@ -36,15 +38,15 @@ title('Oscillations | N = 2, diff omega < K');
 legend; grid on;
 
 fprintf("N = 2, Case 2 done\n");
-
+%{
 % expected result from mathematical analysis: no fixed points for Case 1 (not enough coupling
 % strength); for Case 2, fixed points at arcsin(diffomega/K) and pi - arcsin(diffomega/K) 
-%{
+
 % ----- Part 2: N >> 1 Case, varying K -----
 
 N = 250;
 
-Kvals = 0:0.02:5;
+Kvals = linspace(0, 4, 251);
 R = zeros(1, length(Kvals)); % vector of order parameter... "center of mass distances" / "proximity to synchronization"
 
 for K = Kvals % cycle through uniform range of coupling strengths
@@ -73,12 +75,13 @@ Kc = 2*sqrt(2/pi); % where sigma = 1
 % with guess proportionality constant a
 a = 0.9;
 Rpredic = a .* sqrt(Kvals - Kc);
+Rpredic = Rpredic(1, 1:(find(Rpredic > 1, 1)));
 
 % Plot R vals with respect to K vals
 figure('Name', sprintf('R(K) | N = %d', N));
 plot(Kvals, R, 'b-',  'LineWidth', 1,   'DisplayName', 'R(K)'); hold on;
 xline(Kc,'-',{'Threshold Coupling Strength'}, 'DisplayName', 'Kc'); hold on;
-plot(Kvals, Rpredic, 'r-','LineWidth', 1,   'DisplayName', 'Kuramoto Prediction');
+plot(Kvals(1, 1:length(Rpredic)), Rpredic, 'r-','LineWidth', 1,   'DisplayName', 'Kuramoto Prediction');
 xlabel('Coupling Strength K'); ylabel('Order Parameter R');
 title(sprintf('Order Parameter R as a function of K | N = %d', N));
 legend; grid on;

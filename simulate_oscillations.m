@@ -11,10 +11,10 @@ function [t, theta] = simulate_oscillations(N, K, initvec, omegavec)
     omegavec = omegavec(:);
     [t, theta] = ode45(@(t, theta) rhs(t, theta, K/N, omegavec), [0 100], initvec);
  else
-    % We are now running the N = 2 case; simply run 50 iterations
+    % We are now running the N = 2 case; simply run 40 iterations
     initvec = initvec(:);
     omegavec = omegavec(:);
-    [t, theta] = ode45(@(t, theta) rhs(t, theta, K/N, omegavec), [0 100], initvec);
+    [t, theta] = ode45(@(t, theta) rhs(t, theta, K/N, omegavec), [0 40], initvec);
  end
 end
 function dtheta = rhs(t, theta, scale, omegavec)
