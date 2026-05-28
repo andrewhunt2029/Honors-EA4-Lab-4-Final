@@ -38,7 +38,7 @@ title('Oscillations | N = 2, diff omega < K');
 legend; grid on;
 
 fprintf("N = 2, Case 2 done\n");
-%{
+
 % expected result from mathematical analysis: no fixed points for Case 1 (not enough coupling
 % strength); for Case 2, fixed points at arcsin(diffomega/K) and pi - arcsin(diffomega/K) 
 
@@ -93,4 +93,3 @@ legend; grid on;
 % EXTRA CREDIT 3: solve for gaussian numerically, and overlay R(K)
 
 % need array M containing content
-%}
