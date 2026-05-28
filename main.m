@@ -12,7 +12,7 @@ N = 2; % number of oscillators
 omegavec = [0.5, 1.2];
 initvec = [0, 0]; % initial theta vals
 K = 0.5;
-[t, theta] = simulate_oscillations(N, K, initvec, omegavec, 40);
+[t, theta] = simulate_oscillations(N, K, initvec, omegavec, [0 40]);
 % theta is matrix of size [t, N]
 % Plot results
 figure('Name', 'Oscillations | N = 2, diff omega > K');
@@ -28,7 +28,7 @@ fprintf("N = 2, Case 1 done\n");
 omegavec = [0.5, 0.7];
 initvec = [0, 2];
 K = 0.5;
-[t, theta] = simulate_oscillations(N, K, initvec, omegavec, 40);
+[t, theta] = simulate_oscillations(N, K, initvec, omegavec, [0 40]);
 % Plot results
 figure('Name', 'Oscillations | N = 2, diff omega < K');
 plot(t, theta(:, 1), 'b-',  'LineWidth', 1,   'DisplayName', '1st oscillator'); hold on;
@@ -56,7 +56,7 @@ for K = Kvals % cycle through uniform range of coupling strengths
     omegavec = randn(1, N) + 1; % initial omega vals vector, random from Gaussian curve
 
     % run integration of equation, where theta = phase
-    [t, theta] = simulate_oscillations(N, K, initvec, omegavec, 100);
+    [t, theta] = simulate_oscillations(N, K, initvec, omegavec, [0 100]);
 
     % theta, thetap are matrices of size [t, N]
 
