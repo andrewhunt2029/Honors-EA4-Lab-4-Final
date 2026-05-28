@@ -88,6 +88,47 @@ legend; grid on;
 
 % EXTRA CREDIT 1: movie
 
+K_anim = 3.0;
+N_anim = 50;
+
+initvec_anim = 2*pi*rand(1, N_anim);
+omegavec_anim = randn(1, N_anim) + 1;
+
+[t_anim, theta_anim] = simulate_oscillations(N_anim, K_anim, initvec_anim, omegavec_anim, linspace(0, 40, 400));
+
+theta_circle = linspace(0, 2*pi, 200);
+figure('Name', 'Kuramoto Oscillators on Unit Circle');
+M = struct('cdata', {}, 'colormap', {});
+
+for frame = 1:length(t_anim)
+    clf;
+    hold on; axis equal; axis([-1.5 1.5 -1.5 1.5]);
+
+    plot(cos(theta_circle), sin(theta_circle), 'g', 'LineWidth', 0.5);
+
+    scatter(cos(theta_anim(frame,:)), sin(theta_anim(frame,:)), 40, 'b', 'filled');
+
+    z_mean = mean(exp(1i * theta_anim(frame,:)));
+    R_now = abs(z_mean);
+    Psi_now = angle(z_mean);
+    quiver(0, 0, R_now*cos(Psi_now), R_now*sin(Psi_now), 'r', 'LineWidth', 2, 'MaxHeadSize', 0.5, 'AutoScale', 'off');
+
+    title(sprintf('t = %.1f,   R = %.3f,   K = %.1f', t_anim(frame), R_now, K_anim));
+    xlabel('cos θ'); ylabel('sin θ');
+    grid on;
+
+    drawnow;
+    M(frame) = getframe(gcf);
+end
+
+v = VideoWriter('kuramoto_sync.mp4', 'MPEG-4');
+v.FrameRate = 24;
+open(v);
+writeVideo(v, M);
+close(v);
+fprintf("Extra credit 1 done\n");
+
+
 % EXTRA CREDIT 2: verify Lorentzian
 
 % EXTRA CREDIT 3: solve for gaussian numerically, and overlay R(K)
